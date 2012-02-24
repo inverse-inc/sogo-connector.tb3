@@ -251,7 +251,12 @@ function objectDumper() {
 
 objectDumper.prototype = {
     indent: 0,
+    level: 0,
     dump: function(object) {
+        if (this.level > 3) {
+            return "[level limit reached]";
+        }
+        this.level++;
         let text = "";
 
         let oType = typeof object;
@@ -264,6 +269,8 @@ objectDumper.prototype = {
         text += this._dumpObject(object);
         else if (oType == "undefined")
         text += "<undefined>";
+
+        this.level--;
 
         return text;
     },
